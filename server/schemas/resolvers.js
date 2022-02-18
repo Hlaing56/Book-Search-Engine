@@ -4,8 +4,8 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        getSingleUser: async (parent, { username } )=> {
-            return User.findOne({ username });
+        user: async (parent, { username } )=> {
+          return User.findOne({ username });
         },
     },
     Mutation: {
@@ -30,33 +30,32 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
-        saveBook: async (parent, { bookId }, context) => {
-            if (context.user) {
-              const updatedBooks = await User.findOneAndUpdate(
-                { _id: context.user._id },
-                { $addToSet: { savedBooks: bookId } },
-                { new: true }
-              ).populate('savedBooks');
+        // saveBook: async (parent, { bookId }, context) => {
+        //     if (context.user) {
+        //       const updatedBooks = await User.findOneAndUpdate(
+        //         { _id: context.user._id },
+        //         { $addToSet: { savedBooks: bookId } },
+        //         { new: true }
+        //       ).populate('savedBooks');
           
-              return updatedBooks;
-            }
+        //       return updatedBooks;
+        //     }
           
-            throw new AuthenticationError('You need to be logged in!');
-        },
-        deleteBook: async (parent, { bookId }, context) => {
-            if (context.user) {
-              const updatedBooks = await User.findOneAndUpdate(
-                { _id: context.user._id },
-                { $pull: { savedBooks: bookId } },
-                { new: true }
-              ).populate('savedBooks');
+        //     throw new AuthenticationError('You need to be logged in!');
+        // },
+        // deleteBook: async (parent, { bookId }, context) => {
+        //     if (context.user) {
+        //       const updatedBooks = await User.findOneAndUpdate(
+        //         { _id: context.user._id },
+        //         { $pull: { savedBooks: bookId } },
+        //         { new: true }
+        //       ).populate('savedBooks');
           
-              return updatedBooks;
-            }
+        //       return updatedBooks;
+        //     }
           
-            throw new AuthenticationError('You need to be logged in!');
-        }
-        
+        //     throw new AuthenticationError('You need to be logged in!');
+        // }
     }
 };
 
