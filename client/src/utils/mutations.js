@@ -23,3 +23,27 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const  SAVE_BOOK = gql`
+  mutation Mutation($bookData: bookInput!) {
+    saveBook(bookData: $bookData) {
+      authors
+      title
+      bookId
+    }
+  }
+`;
+
+export const  DELETE_BOOK = gql`
+  mutation Mutation($bookData: bookInput!) {
+    deleteBook(bookData: $bookData) {
+      title
+      authors
+      bookId
+    }
+  }
+`;
+
+export const searchGoogleBooks = (query) => {
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+};
